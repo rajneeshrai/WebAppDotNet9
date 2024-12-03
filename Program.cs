@@ -10,10 +10,14 @@ app.Use(async (HttpContext context, RequestDelegate next) => {
     await context.Response.WriteAsync("After first middleware execution!\r\n");
 });
 
+app.Run(async (context) => {
+    await context.Response.WriteAsync("Processed!\r\n");
+});
+
 app.Use(async (context, next) => {
-    await context.Response.WriteAsync("Before second middleware execution!\r\n");
+    await context.Response.WriteAsync("Before Last middleware execution!\r\n");
     await next(context);
-    await context.Response.WriteAsync("After second middleware execution!\r\n");
+    await context.Response.WriteAsync("After Last middleware execution!\r\n");
 });
 
 // app.Run(async (HttpContext httpContext) =>
