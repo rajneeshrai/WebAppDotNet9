@@ -4,21 +4,50 @@ var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
 // app.MapGet("/", () => "Hello World!");
-app.Use(async (HttpContext context, RequestDelegate next) => {
+app.Use(async (HttpContext context, RequestDelegate next) =>
+{
     await context.Response.WriteAsync("Before first middleware execution!\r\n");
     await next(context);
     await context.Response.WriteAsync("After first middleware execution!\r\n");
 });
 
-app.Run(async (context) => {
+app.Map("/employees", appBuilder =>
+{
+    appBuilder.Use(async (context, next) =>
+    {
+        await context.Response.WriteAsync("Before Fourth middleware execution!\r\n");
+        await next(context);
+        await context.Response.WriteAsync("After Fourth middleware execution!\r\n");
+    });
+
+    appBuilder.Use(async (context, next) =>
+    {
+        await context.Response.WriteAsync("Before Fifth middleware execution!\r\n");
+        await next(context);
+        await context.Response.WriteAsync("After Fifth middleware execution!\r\n");
+    });
+});
+
+app.Use(async (context, next) =>
+{
+    await context.Response.WriteAsync("Before Second middleware execution!\r\n");
+    await next(context);
+    await context.Response.WriteAsync("After Second middleware execution!\r\n");
+});
+
+app.Use(async (context, next) =>
+{
+    await context.Response.WriteAsync("Before Third middleware execution!\r\n");
+    await next(context);
+    await context.Response.WriteAsync("After Third middleware execution!\r\n");
+});
+
+app.Run(async (context) =>
+{
     await context.Response.WriteAsync("Processed!\r\n");
 });
 
-app.Use(async (context, next) => {
-    await context.Response.WriteAsync("Before Last middleware execution!\r\n");
-    await next(context);
-    await context.Response.WriteAsync("After Last middleware execution!\r\n");
-});
+
 
 // app.Run(async (HttpContext httpContext) =>
 // {
@@ -81,8 +110,9 @@ static class EmployeeRepository
         ];
     public static List<Employee> GetEmployees => _employees;
 
-    public static void AddEmployee(Employee? employee){
-        if(employee is not null)
+    public static void AddEmployee(Employee? employee)
+    {
+        if (employee is not null)
             _employees.Add(employee);
     }
 }
