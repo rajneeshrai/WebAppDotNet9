@@ -1,51 +1,67 @@
+using System.Reflection.Metadata.Ecma335;
 using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllers();
 var app = builder.Build();
-
+app.UseRouting();
+app.MapControllers();
 // app.MapGet("/", () => "Hello World!");
-app.Use(async (HttpContext context, RequestDelegate next) =>
-{
-    await context.Response.WriteAsync("Before first middleware execution!\r\n");
-    await next(context);
-    await context.Response.WriteAsync("After first middleware execution!\r\n");
-});
+// app.Use(async (HttpContext context, RequestDelegate next) =>
+// {
+//     await context.Response.WriteAsync("Before first middleware execution!\r\n");
+//     await next(context);
+//     await context.Response.WriteAsync("After first middleware execution!\r\n");
+// });
 
-app.Map("/employees", appBuilder =>
-{
-    appBuilder.Use(async (context, next) =>
-    {
-        await context.Response.WriteAsync("Before Fourth middleware execution!\r\n");
-        await next(context);
-        await context.Response.WriteAsync("After Fourth middleware execution!\r\n");
-    });
+// app.Map("/employees", appBuilder =>
+// {
+//     appBuilder.MapWhen((context) =>
+//     {
+//         return context.Request.Query.ContainsKey("id");
+//     },
+//     (config) =>
+//     {
+//         config.Use(async (context, next) =>
+//     {
+//         await context.Response.WriteAsync("Before MapWhen middleware execution!\r\n");
+//         await next(context);
+//         await context.Response.WriteAsync("After MapWhen middleware execution!\r\n");
+//     });
+//     });
+//     appBuilder.Use(async (context, next) =>
+//     {
+//         await context.Response.WriteAsync("Before Fourth middleware execution!\r\n");
+//         await next(context);
+//         await context.Response.WriteAsync("After Fourth middleware execution!\r\n");
+//     });
 
-    appBuilder.Use(async (context, next) =>
-    {
-        await context.Response.WriteAsync("Before Fifth middleware execution!\r\n");
-        await next(context);
-        await context.Response.WriteAsync("After Fifth middleware execution!\r\n");
-    });
-});
+//     appBuilder.Use(async (context, next) =>
+//     {
+//         await context.Response.WriteAsync("Before Fifth middleware execution!\r\n");
+//         await next(context);
+//         await context.Response.WriteAsync("After Fifth middleware execution!\r\n");
+//     });
+// });
 
-app.Use(async (context, next) =>
-{
-    await context.Response.WriteAsync("Before Second middleware execution!\r\n");
-    await next(context);
-    await context.Response.WriteAsync("After Second middleware execution!\r\n");
-});
+// app.Use(async (context, next) =>
+// {
+//     await context.Response.WriteAsync("Before Second middleware execution!\r\n");
+//     await next(context);
+//     await context.Response.WriteAsync("After Second middleware execution!\r\n");
+// });
 
-app.Use(async (context, next) =>
-{
-    await context.Response.WriteAsync("Before Third middleware execution!\r\n");
-    await next(context);
-    await context.Response.WriteAsync("After Third middleware execution!\r\n");
-});
+// app.Use(async (context, next) =>
+// {
+//     await context.Response.WriteAsync("Before Third middleware execution!\r\n");
+//     await next(context);
+//     await context.Response.WriteAsync("After Third middleware execution!\r\n");
+// });
 
-app.Run(async (context) =>
-{
-    await context.Response.WriteAsync("Processed!\r\n");
-});
+// app.Run(async (context) =>
+// {
+//     await context.Response.WriteAsync("Processed!\r\n");
+// });
 
 
 
@@ -100,34 +116,3 @@ app.Run(async (context) =>
 // });
 
 app.Run();
-
-static class EmployeeRepository
-{
-    private static List<Employee> _employees = [
-            new Employee(1,"Rajneesh", "Tech Lead",1000),
-            new Employee(2,"Rajat", "Manager",1500),
-            new Employee(3,"Rajneesh", "Tech Lead",1000),
-        ];
-    public static List<Employee> GetEmployees => _employees;
-
-    public static void AddEmployee(Employee? employee)
-    {
-        if (employee is not null)
-            _employees.Add(employee);
-    }
-}
-
-public class Employee
-{
-    public Employee(int id, string name, string position, decimal salary)
-    {
-        this.Id = id;
-        this.Name = name;
-        this.Position = position;
-        this.Salary = salary;
-    }
-    public int Id { get; set; }
-    public string? Name { get; set; }
-    public string? Position { get; set; }
-    public decimal Salary { get; set; }
-}
