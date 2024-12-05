@@ -1,0 +1,75 @@
+{
+    "info": {
+        "_postman_id": "ca8a4613-df84-41d8-9c3f-0aef6e1b7f5d",
+        "name": "Employee",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": ""
+    },
+    "item": [
+        {
+            "name": "GetEmployees",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://localhost:5145/GetEmployees",
+                    "path": [
+                        "GetEmployees"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "5145"
+                }
+            }
+        },
+        {
+            "name": "GetEmployee By Id",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://localhost:5145/GetEmployeeById?id=10",
+                    "query": [
+                        {
+                            "key": "id",
+                            "value": "10"
+                        }
+                    ],
+                    "variable": [],
+                    "path": [
+                        "GetEmployeeById"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "5145"
+                }
+            }
+        },
+        {
+            "name": "Add Employee",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://localhost:5145/GetEmployeeById?id=10",
+                    "query": [
+                        {
+                            "key": "id",
+                            "value": "10"
+                        }
+                    ],
+                    "variable": [],
+                    "path": [
+                        "GetEmployeeById"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "5145"
+                }
+            }
+        }
+    ]
+}

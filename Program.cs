@@ -1,8 +1,10 @@
 using System.Reflection.Metadata.Ecma335;
 using System.Text.Json;
+using WebAppDotnet9;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
+builder.Services.AddSingleton<IEmployeeRepository, EmployeeRepository>();
 var app = builder.Build();
 app.UseRouting();
 app.MapControllers();
